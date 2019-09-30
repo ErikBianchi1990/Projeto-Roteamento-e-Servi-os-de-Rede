@@ -1,0 +1,75 @@
+enable
+configure terminal
+hostname RT-11
+banner motd "APENAS PARA GRUPO TARGARYEN"
+enable secret SenhadaEnable
+service password-encryption
+ip domain-name Rede1.Local
+crypto key generate rsa general-key modulus 1024
+username GabrielSilva privilege 15 secret Grupo005
+username EilemGomes privilege 15 secret Grupo005
+username LeonardoSilva privilege 15 secret Grupo005
+username JulioSampaio privilege 15 secret Grupo005
+username ErikBianchi privilege 15 secret Grupo005
+login block-for 240 attempts 7 within 600
+security passwords min-length 8
+line console 0
+password SenhadaConsole
+login local
+exit
+line vty 0 15
+transport input ssh
+login local
+exec-timeout 5
+exit
+ip ftp username ErikBianchi
+ip ftp password erikftp
+interface gigabitEthernet 0/1
+no shutdown
+exit
+interface gigabitEthernet 0/1.10
+encapsulation dot1Q 10
+ip address 172.16.1.1 255.255.255.128
+description REDE VLAN 10
+ip helper-address 172.16.1.133
+exit
+interface gigabitEthernet 0/1.20
+encapsulation dot1Q 20
+ip address 172.16.0.1 255.255.255.0
+description REDE VLAN 20
+ip helper-address 172.16.1.133
+exit
+interface gigabitEthernet 0/1.100
+encapsulation dot1Q 100
+ip address 172.16.1.129 255.255.255.240
+description REDE VLAN 100
+ip helper-address 172.16.1.133
+exit
+interface serial 0/0/1
+ip address 200.18.189.6 255.255.255.252
+description REDE WAN 2
+no shutdown
+exit
+interface serial 0/0/0
+ip address 200.18.189.9 255.255.255.252
+description REDE WAN 3
+no shutdown
+exit
+ip route 200.18.189.0 255.255.255.252 200.18.189.5
+ip route 200.18.189.0 255.255.255.252 200.18.189.10
+ip route 172.16.3.0 255.255.255.224 200.18.189.5
+ip route 172.16.3.0 255.255.255.224 200.18.189.10
+ip route 172.16.2.128 255.255.255.128 200.18.189.5
+ip route 172.16.2.128 255.255.255.128 200.18.189.10
+ip route 172.16.2.0 255.255.255.128 200.18.189.5
+ip route 172.16.2.0 255.255.255.128 200.18.189.10
+ip route 172.16.4.192 255.255.255.224 200.18.189.5
+ip route 172.16.4.192 255.255.255.224 200.18.189.10
+ip route 172.16.4.128 255.255.255.192 200.18.189.5
+ip route 172.16.4.128 255.255.255.192 200.18.189.10
+ip route 172.16.4.0 255.255.255.128 200.18.189.5
+ip route 172.16.4.0 255.255.255.128 200.18.189.10
+do wr
+
+
+
